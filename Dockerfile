@@ -42,4 +42,7 @@ RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi \
 
 RUN composer dump-autoload --optimize
 
-CMD ["sh", "-c", "set -e; php artisan config:clear; php artisan migrate --force; php artisan db:seed --force; php artisan storage:link || true; php artisan config:cache; php artisan view:cache; php artisan serve --host=0.0.0.0 --port=${PORT}"]
+RUN ls -la public && ls -la public/build || true
+
+
+CMD ["sh", "-c", "set -e; php artisan optimize:clear; php artisan migrate --force; php artisan db:seed --force; php artisan storage:link || true; php artisan config:cache; php artisan route:cache; php artisan view:cache; php artisan serve --host=0.0.0.0 --port=${PORT}"]
